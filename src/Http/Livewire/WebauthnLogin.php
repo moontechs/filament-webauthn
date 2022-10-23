@@ -83,8 +83,8 @@ class WebauthnLogin extends Component implements HasForms
     public function notifyUnsupported(): void
     {
         Notification::make()
-            ->title(__('filament-webauthn.notifications.authentication.error'))
-            ->body(__('filament-webauthn.notifications.unsupported'))
+            ->title(__('filament-webauthn::filament-webauthn.notifications.authentication.error'))
+            ->body(__('filament-webauthn::filament-webauthn.notifications.unsupported'))
             ->danger()
             ->send();
     }
@@ -92,7 +92,7 @@ class WebauthnLogin extends Component implements HasForms
     public function notifyError(string $text): void
     {
         Notification::make()
-            ->title(__('filament-webauthn.notifications.authentication.error'))
+            ->title(__('filament-webauthn::filament-webauthn.notifications.authentication.error'))
             ->body($text)
             ->danger()
             ->send();

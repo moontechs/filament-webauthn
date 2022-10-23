@@ -4,7 +4,7 @@
     :icon="$icon"
     wire:click="register"
 >
-    {{ __('filament-webauthn.register-button-text') }}
+    {{ __('filament-webauthn::filament-webauthn.register-button-text') }}
 </x-filament::button>
 
 <script>

@@ -38,8 +38,8 @@ class WebauthnRegisterButton extends Component
     public function notifyUnsupported(): void
     {
         Notification::make()
-            ->title(__('filament-webauthn.notifications.registration.error'))
-            ->body(__('filament-webauthn.notifications.unsupported'))
+            ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
+            ->body(__('filament-webauthn::filament-webauthn.notifications.unsupported'))
             ->danger()
             ->send();
     }
@@ -47,7 +47,7 @@ class WebauthnRegisterButton extends Component
     public function notifyError(string $text): void
     {
         Notification::make()
-            ->title(__('filament-webauthn.notifications.registration.error'))
+            ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
             ->body($text)
             ->danger()
             ->send();
@@ -60,25 +60,25 @@ class WebauthnRegisterButton extends Component
 
             if (! $saveResult) {
                 Notification::make()
-                    ->title(__('filament-webauthn.notifications.registration.error'))
+                    ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
                     ->danger()
                     ->send();
 
                 return;
             }
             Notification::make()
-                ->title(__('filament-webauthn.notifications.registration.success'))
+                ->title(__('filament-webauthn::filament-webauthn.notifications.registration.success'))
                 ->success()
                 ->send();
         } catch (RegistrationException $exception) {
             Notification::make()
-                ->title(__('filament-webauthn.notifications.registration.error'))
+                ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
                 ->body($exception->getMessage())
                 ->danger()
                 ->send();
         } catch (\Throwable $throwable) {
             Notification::make()
-                ->title(__('filament-webauthn.notifications.registration.error'))
+                ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
                 ->danger()
                 ->send();
         }
