@@ -7,7 +7,6 @@ use Livewire\Livewire;
 use Moontechs\FilamentWebauthn\Http\Livewire\WebauthnLogin;
 use Moontechs\FilamentWebauthn\Http\Livewire\WebauthnRedirectToLoginButton;
 use Moontechs\FilamentWebauthn\Http\Livewire\WebauthnRegisterButton;
-use Moontechs\FilamentWebauthn\Widgets\WebauthnRegisterWidget;
 use Spatie\LaravelPackageTools\Package;
 
 class FilamentWebauthnServiceProvider extends PluginServiceProvider
