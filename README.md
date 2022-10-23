@@ -5,12 +5,14 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/moontechs/filament-webauthn/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/moontechs/filament-webauthn/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/moontechs/filament-webauthn.svg?style=flat-square)](https://packagist.org/packages/moontechs/filament-webauthn)
 
-Passwordless login for you Filament app. Webauthn server side and front-end components.
+Passwordless login for your Filament app. Webauthn server-side and front-end components.
 
 The package has the following components:
 * registration button and widget
 * login form extension to redirect to the webauthn login page
 * separate route and page with webauthn login form
+
+Should work with HTTPS and not localhost only.
 
 ## Installation
 
@@ -73,6 +75,12 @@ Optionally, you can publish the views using
 php artisan vendor:publish --tag="filament-webauthn-views"
 ```
 
+You can publish the translation file with:
+
+```bash
+php artisan vendor:publish --tag="filament-webauthn-translations"
+```
+
 ## Usage
 
 * Install the package.
@@ -80,14 +88,14 @@ php artisan vendor:publish --tag="filament-webauthn-views"
 
 ### Add a registration widget
 * Register `Moontechs\FilamentWebauthn\Widgets\WebauthnRegisterWidget::class` widget. 
-Add it to  the `widgets.register` array of the Filament config.
+Add it to the `widgets.register` array of the Filament config.
 
-Only signed-in users can register a device to be able to sign in using it in the future.
+Only signed-in users can register a device to be able to sign in to use it in the future.
 
 ### Add just a registration button
 * Add `<livewire:webauthn-register-button/>` in any view.
 
-### Add a redirect to login page button
+### Add a redirect to the login page button
 * Publish Filament login page view `php artisan vendor:publish --tag=filament-views`
 * Add `<x-filament-webauthn::login-form-extension />` in the end of the login form.
 
