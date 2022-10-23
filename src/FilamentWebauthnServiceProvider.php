@@ -25,7 +25,7 @@ class FilamentWebauthnServiceProvider extends PluginServiceProvider
             ->hasTranslations()
             ->hasAssets()
             ->publishesServiceProvider('FilamentWebauthnServiceProvider')
-            ->hasMigration('create_filament-webauthn_table');
+            ->hasMigration('create_filament_webauthn_table');
     }
 
     public function boot()
