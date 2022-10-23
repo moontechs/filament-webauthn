@@ -1,0 +1,30 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('webauthn_keys', function (Blueprint $table) {
+            $table->id();
+            $table->string('credential_id');
+            $table->mediumText('public_key');
+            $table->mediumText('user_handle');
+            $table->foreignId('user_id');
+            $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('webauthn_keys', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('user_id');
+        });
+        Schema::dropIfExists('webauthn_keys');
+    }
+};

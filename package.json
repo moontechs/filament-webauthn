@@ -1,0 +1,11 @@
+{
+    "name": "filament-webauthn",
+    "dependencies": {
+        "@github/webauthn-json": "^2.0.1",
+        "laravel-mix": "^6.0.37"
+    },
+    "scripts": {
+        "build": "mix --production",
+        "watch": "mix watch"
+    }
+}
