@@ -93,6 +93,8 @@ Only signed-in users can register a device to be able to sign in to use it in th
 * Register `Moontechs\FilamentWebauthn\Widgets\WebauthnRegisterWidget::class` widget. 
 Add it to the `widgets.register` array of the Filament config.
 
+![widget](images/widget.png?raw=true)
+
 #### Customization
 * Publish the config file
 * `widget.column_span` - widget width ([docs](https://filamentphp.com/docs/2.x/admin/dashboard/getting-started#customizing-widget-width))
@@ -106,14 +108,21 @@ Add it to the `widgets.register` array of the Filament config.
 * `register_button.class` - add more classes or change the default one 
 
 ### Redirect to the login page button
+
 * Publish Filament login page view `php artisan vendor:publish --tag=filament-views`
 * Add `<x-filament-webauthn::login-form-extension />` in the end of the login form.
+
+If you didn't want to use this button, you can use a simple redirect to a named route `filament-webauthn.login`.
+
+![redirect to login page](images/reditect-to-login-page.png?raw=true)
 
 ### Login form
 #### Customization
 * Publish the config file
 * `login_button.icon` - choose any available icon
 * `login_button.class` - add more classes or change the default one
+
+![login](images/login.png?raw=true)
 
 ## Testing
 
