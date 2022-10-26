@@ -19,9 +19,9 @@
     ],
     "require": {
         "php": ">=8.0",
-        "ext-random": "*",
         "ext-openssl": "*",
         "ext-json": "*",
+        "ext-sodium": "*",
         "filament/filament": "^2.0",
         "illuminate/contracts": "^9.0",
         "madwizard/webauthn": "^0.8.1",
