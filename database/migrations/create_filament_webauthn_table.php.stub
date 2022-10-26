@@ -23,7 +23,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('webauthn_keys', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('user_id');
+            if (config('database.default') !== 'sqlite') {
+                $table->dropConstrainedForeignId('user_id');
+            }
         });
         Schema::dropIfExists('webauthn_keys');
     }
