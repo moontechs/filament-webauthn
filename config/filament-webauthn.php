@@ -4,7 +4,7 @@
 return [
     'login_page_url' => '/webauthn-login',
     'user' => [
-        'login_id' => 'email',
+        'auth_identifier' => 'email', // column in users table with unique user id
     ],
     'widget' => [
         'column_span' => '',
@@ -15,6 +15,7 @@ return [
     ],
     'login_button' => [
         'icon' => 'heroicon-o-key',
+        'class' => 'w-full',
     ],
     'auth' => [
         'relying_party' => [

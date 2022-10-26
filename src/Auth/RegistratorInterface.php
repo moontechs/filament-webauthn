@@ -6,5 +6,5 @@ interface RegistratorInterface
 {
     public function getClientOptions(): string;
 
-    public function validateAndRegister(string $data): bool;
+    public function validateAndRegister(string $data);
 }

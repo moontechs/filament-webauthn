@@ -48,7 +48,7 @@ class Registrator implements RegistratorInterface
         return json_encode($registrationRequest->getClientOptionsJson());
     }
 
-    public function validateAndRegister(string $data): bool
+    public function validateAndRegister(string $data)
     {
         try {
             $registrationResult = $this->server->finishRegistration(
@@ -57,7 +57,7 @@ class Registrator implements RegistratorInterface
             );
 
             if (! $registrationResult->isUserVerified()) {
-                return false;
+                throw new RegistrationException();
             }
             WebauthnKey::create([
                 'credential_id' => $registrationResult->getCredentialId()->toString(),
@@ -69,7 +69,7 @@ class Registrator implements RegistratorInterface
         } catch (WebAuthnException $exception) {
             throw new RegistrationException($exception->getMessage());
         } catch (\Throwable $throwable) {
-            return false;
+            throw new RegistrationException();
         }
 
         return true;

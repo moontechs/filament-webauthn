@@ -3,12 +3,13 @@
 namespace Moontechs\FilamentWebauthn\Auth;
 
 use Filament\Facades\Filament;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use MadWizard\WebAuthn\Dom\UserVerificationRequirement;
+use MadWizard\WebAuthn\Exception\WebAuthnException;
 use MadWizard\WebAuthn\Json\JsonConverter;
 use MadWizard\WebAuthn\Server\Authentication\AuthenticationOptions;
 use MadWizard\WebAuthn\Server\ServerInterface;
+use Moontechs\FilamentWebauthn\Exceptions\LoginException;
 use Moontechs\FilamentWebauthn\Repositories\UserRepository;
 
 class Authenticator implements AuthenticatorInterface
@@ -31,21 +32,25 @@ class Authenticator implements AuthenticatorInterface
 
     public function getClientOptions(): string
     {
-        if (! empty(config('filament-webauthn.auth.client_options.user_verification'))) {
-            $this->authenticationOptions->setUserVerification(UserVerificationRequirement::REQUIRED);
+        try {
+            if (! empty(config('filament-webauthn.auth.client_options.user_verification'))) {
+                $this->authenticationOptions->setUserVerification(UserVerificationRequirement::REQUIRED);
+            }
+            $this->authenticationOptions->setTimeout(config('filament-webauthn.auth.client_options.timeout'));
+            $authenticationRequest = $this->server->startAuthentication($this->authenticationOptions);
+
+            Session::put($this->getSessionKey(
+                $this->authenticationOptions->getUserHandle()->toString()),
+                $authenticationRequest->getContext()
+            );
+
+            return json_encode($authenticationRequest->getClientOptionsJson());
+        } catch (\Throwable $exception) {
+            throw new LoginException();
         }
-        $this->authenticationOptions->setTimeout(config('filament-webauthn.auth.client_options.timeout'));
-        $authenticationRequest = $this->server->startAuthentication($this->authenticationOptions);
-
-        Session::put($this->getSessionKey(
-            $this->authenticationOptions->getUserHandle()->toString()),
-            $authenticationRequest->getContext()
-        );
-
-        return json_encode($authenticationRequest->getClientOptionsJson());
     }
 
-    public function validateAndLogin(string $data, bool $remember = false): bool
+    public function validateAndLogin(string $data, bool $remember = false)
     {
         try {
             $authenticationResult = $this->server->finishAuthentication(
@@ -63,12 +68,10 @@ class Authenticator implements AuthenticatorInterface
                 $remember
             );
             Session::forget($this->getSessionKey($this->authenticationOptions->getUserHandle()->toString()));
-
-            return true;
+        } catch (WebAuthnException $exception) {
+            throw new LoginException($exception->getMessage());
         } catch (\Throwable $throwable) {
-            Log::error('validation or login failed', [$throwable]);
-
-            return false;
+            throw new LoginException();
         }
     }
 

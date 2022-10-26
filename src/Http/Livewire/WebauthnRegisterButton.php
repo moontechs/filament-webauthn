@@ -56,16 +56,7 @@ class WebauthnRegisterButton extends Component
     public function validateAndRegister(string $data): void
     {
         try {
-            $saveResult = (new WebauthnFactory())->createRegistrator()->validateAndRegister($data);
-
-            if (! $saveResult) {
-                Notification::make()
-                    ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
-                    ->danger()
-                    ->send();
-
-                return;
-            }
+            (new WebauthnFactory())->createRegistrator()->validateAndRegister($data);
             Notification::make()
                 ->title(__('filament-webauthn::filament-webauthn.notifications.registration.success'))
                 ->success()
@@ -74,11 +65,6 @@ class WebauthnRegisterButton extends Component
             Notification::make()
                 ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
                 ->body($exception->getMessage())
-                ->danger()
-                ->send();
-        } catch (\Throwable $throwable) {
-            Notification::make()
-                ->title(__('filament-webauthn::filament-webauthn.notifications.registration.error'))
                 ->danger()
                 ->send();
         }

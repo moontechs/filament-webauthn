@@ -14,6 +14,6 @@ class User implements UserInterface
          */
         $user = Filament::auth()->user();
 
-        return $user->getAttributeValue(config('filament-webauthn.user.login_id'));
+        return $user->getAttributeValue(config('filament-webauthn.user.auth_identifier'));
     }
 }

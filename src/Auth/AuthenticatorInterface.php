@@ -6,5 +6,5 @@ interface AuthenticatorInterface
 {
     public function getClientOptions(): string;
 
-    public function validateAndLogin(string $data, bool $remember = false): bool;
+    public function validateAndLogin(string $data, bool $remember = false);
 }

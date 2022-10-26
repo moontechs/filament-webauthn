@@ -9,7 +9,7 @@ class UserRepository implements UserRepositoryInterface
     public function getUserIdByCredentialId(string $credentialId): ?int
     {
         $userEntity = DB::table('users')
-            ->where(config('filament-webauthn.user.login_id'), '=', $credentialId)
+            ->where(config('filament-webauthn.user.auth_identifier'), '=', $credentialId)
             ->first(['id']);
 
         return $userEntity?->id;

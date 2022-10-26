@@ -13,7 +13,7 @@ use Filament\Notifications\Notification;
 use Illuminate\Contracts\View\View;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
-use MadWizard\WebAuthn\Exception\NoCredentialsException;
+use Moontechs\FilamentWebauthn\Exceptions\LoginException;
 use Moontechs\FilamentWebauthn\Factories\WebauthnFactory;
 
 /**
@@ -29,6 +29,8 @@ class WebauthnLogin extends Component implements HasForms
 
     public string $icon;
 
+    public string $class;
+
     public string $clientOptions = '';
 
     public function mount(): void
@@ -37,6 +39,7 @@ class WebauthnLogin extends Component implements HasForms
             redirect()->intended(Filament::getUrl());
         }
         $this->icon = config('filament-webauthn.login_button.icon', '');
+        $this->class = config('filament-webauthn.login_button.class', '');
 
         if (config('check_if_supported')) {
             $this->emitSelf('supported');
@@ -56,7 +59,7 @@ class WebauthnLogin extends Component implements HasForms
             $this->clientOptions = (new WebauthnFactory())
                 ->createAuthenticator($formState['email'])
                 ->getClientOptions();
-        } catch (NoCredentialsException $exception) {
+        } catch (LoginException $exception) {
             throw ValidationException::withMessages([
                 'email' => __('filament::login.messages.failed'),
             ]);
@@ -71,7 +74,7 @@ class WebauthnLogin extends Component implements HasForms
             (new WebauthnFactory())
                 ->createAuthenticator($this->email)
                 ->validateAndLogin($data, $this->remember);
-        } catch (\Throwable $throwable) {
+        } catch (LoginException $exception) {
             throw ValidationException::withMessages([
                 'email' => __('filament::login.messages.failed'),
             ])->redirectTo(config('filament-webauthn.login_page_url'));
