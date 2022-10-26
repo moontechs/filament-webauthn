@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/moontechs/filament-webauthn/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/moontechs/filament-webauthn/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/moontechs/filament-webauthn.svg?style=flat-square)](https://packagist.org/packages/moontechs/filament-webauthn)
 
-Passwordless login for your Filament app. Webauthn server-side and front-end components.
+Passwordless login for your Filament app. Web Authentication server-side and front-end components.
 
 The package has the following components:
 * registration button and widget
