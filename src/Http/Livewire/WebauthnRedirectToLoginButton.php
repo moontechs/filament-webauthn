@@ -22,6 +22,6 @@ class WebauthnRedirectToLoginButton extends Component
 
     public function redirectToLoginPage(): RedirectResponse|Redirector
     {
-        return redirect(config('filament-webauthn.login_page_url', '/'));
+        return redirect()->route('filament-webauthn.login');
     }
 }
