@@ -87,18 +87,33 @@ php artisan vendor:publish --tag="filament-webauthn-translations"
 * Install the package.
 * Publish migrations and migrate.
 
-### Add a registration widget
+### Registration widget
+Only signed-in users can register a device to be able to sign in to use it in the future.
+
 * Register `Moontechs\FilamentWebauthn\Widgets\WebauthnRegisterWidget::class` widget. 
 Add it to the `widgets.register` array of the Filament config.
 
-Only signed-in users can register a device to be able to sign in to use it in the future.
+#### Customization
+* Publish the config file
+* `widget.column_span` - widget width ([docs](https://filamentphp.com/docs/2.x/admin/dashboard/getting-started#customizing-widget-width))
 
-### Add just a registration button
+### Registration button (without widget)
 * Add `<livewire:webauthn-register-button/>` in any view.
 
-### Add a redirect to the login page button
+#### Customization
+* Publish the config file
+* `register_button.icon` - choose any available icon
+* `register_button.class` - add more classes or change the default one 
+
+### Redirect to the login page button
 * Publish Filament login page view `php artisan vendor:publish --tag=filament-views`
 * Add `<x-filament-webauthn::login-form-extension />` in the end of the login form.
+
+### Login form
+#### Customization
+* Publish the config file
+* `login_button.icon` - choose any available icon
+* `login_button.class` - add more classes or change the default one
 
 ## Testing
 
