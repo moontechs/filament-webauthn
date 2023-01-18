@@ -3,14 +3,14 @@
 namespace Moontechs\FilamentWebauthn\Auth;
 
 use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
-use MadWizard\WebAuthn\Dom\UserVerificationRequirement;
 use MadWizard\WebAuthn\Exception\WebAuthnException;
 use MadWizard\WebAuthn\Json\JsonConverter;
 use MadWizard\WebAuthn\Server\Authentication\AuthenticationOptions;
 use MadWizard\WebAuthn\Server\ServerInterface;
 use Moontechs\FilamentWebauthn\Exceptions\LoginException;
-use Moontechs\FilamentWebauthn\Repositories\UserRepository;
+use Moontechs\FilamentWebauthn\Repositories\UserRepositoryInterface;
 
 class Authenticator implements AuthenticatorInterface
 {
@@ -18,12 +18,12 @@ class Authenticator implements AuthenticatorInterface
 
     private AuthenticationOptions $authenticationOptions;
 
-    private UserRepository $userRepository;
+    private UserRepositoryInterface $userRepository;
 
     public function __construct(
         ServerInterface $server,
         AuthenticationOptions $authenticationOptions,
-        UserRepository $userRepository
+        UserRepositoryInterface $userRepository
     ) {
         $this->server = $server;
         $this->authenticationOptions = $authenticationOptions;
@@ -33,14 +33,16 @@ class Authenticator implements AuthenticatorInterface
     public function getClientOptions(): string
     {
         try {
-            if (! empty(config('filament-webauthn.auth.client_options.user_verification'))) {
-                $this->authenticationOptions->setUserVerification(UserVerificationRequirement::REQUIRED);
+            if (! empty(Config::get('filament-webauthn.auth.client_options.user_verification'))) {
+                $this->authenticationOptions->setUserVerification(Config::get('filament-webauthn.auth.client_options.user_verification'));
             }
-            $this->authenticationOptions->setTimeout(config('filament-webauthn.auth.client_options.timeout'));
+            $this->authenticationOptions->setTimeout(Config::get('filament-webauthn.auth.client_options.timeout'));
             $authenticationRequest = $this->server->startAuthentication($this->authenticationOptions);
 
-            Session::put($this->getSessionKey(
-                $this->authenticationOptions->getUserHandle()->toString()),
+            Session::put(
+                $this->getSessionKey(
+                    $this->authenticationOptions->getUserHandle()->toString()
+                ),
                 $authenticationRequest->getContext()
             );
 

@@ -2,9 +2,9 @@
 
 namespace Moontechs\FilamentWebauthn\Auth;
 
-use Filament\Facades\Filament;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
-use MadWizard\WebAuthn\Dom\AttestationConveyancePreference;
 use MadWizard\WebAuthn\Exception\WebAuthnException;
 use MadWizard\WebAuthn\Json\JsonConverter;
 use MadWizard\WebAuthn\Server\Registration\RegistrationOptions;
@@ -18,28 +18,32 @@ class Registrator implements RegistratorInterface
 
     private RegistrationOptions $registrationOptions;
 
+    private Authenticatable $user;
+
     public function __construct(
         ServerInterface $server,
-        RegistrationOptions $registrationOptions
+        RegistrationOptions $registrationOptions,
+        Authenticatable $user
     ) {
         $this->server = $server;
         $this->registrationOptions = $registrationOptions;
+        $this->user = $user;
     }
 
     public function getClientOptions(): string
     {
-        $this->registrationOptions->setTimeout(config('filament-webauthn.auth.client_options.timeout'));
+        $this->registrationOptions->setTimeout(Config::get('filament-webauthn.auth.client_options.timeout'));
 
-        if (! empty(config('filament-webauthn.auth.client_options.user_verification'))) {
-            $this->registrationOptions->setUserVerification(config('filament-webauthn.auth.client_options.user_verification'));
+        if (! empty(Config::get('filament-webauthn.auth.client_options.user_verification'))) {
+            $this->registrationOptions->setUserVerification(Config::get('filament-webauthn.auth.client_options.user_verification'));
         }
 
-        if (! empty(config('filament-webauthn.auth.client_options.attestation'))) {
-            $this->registrationOptions->setAttestation(AttestationConveyancePreference::DIRECT);
+        if (! empty(Config::get('filament-webauthn.auth.client_options.attestation'))) {
+            $this->registrationOptions->setAttestation(Config::get('filament-webauthn.auth.client_options.attestation'));
         }
 
-        if (! empty(config('filament-webauthn.auth.client_options.platform'))) {
-            $this->registrationOptions->setAuthenticatorAttachment(config('filament-webauthn.auth.client_options.platform'));
+        if (! empty(Config::get('filament-webauthn.auth.client_options.platform'))) {
+            $this->registrationOptions->setAuthenticatorAttachment(Config::get('filament-webauthn.auth.client_options.platform'));
         }
         $registrationRequest = $this->server->startRegistration($this->registrationOptions);
 
@@ -61,7 +65,7 @@ class Registrator implements RegistratorInterface
             }
             WebauthnKey::create([
                 'credential_id' => $registrationResult->getCredentialId()->toString(),
-                'user_id' => Filament::auth()->user()->getAuthIdentifier(),
+                'user_id' => $this->user->getAuthIdentifier(),
                 'public_key' => base64_encode(serialize($registrationResult->getPublicKey())),
                 'user_handle' => $registrationResult->getUserHandle()->toString(),
             ]);
@@ -77,6 +81,6 @@ class Registrator implements RegistratorInterface
 
     private function getSessionKey(): string
     {
-        return 'filament:webauthn:register:'.Filament::auth()->user()->getAuthIdentifier();
+        return 'filament:webauthn:register:'.$this->user->getAuthIdentifier();
     }
 }

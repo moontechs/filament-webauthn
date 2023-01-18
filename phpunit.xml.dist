@@ -23,6 +23,11 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <env name="APP_HOST" value="laravel.test" force="true" />
+        <env name="APP_NAME" value="laravel" force="true" />
+        <env name="APP_URL" value="https://laravel.test" force="true" />
+    </php>
     <coverage>
         <include>
             <directory suffix=".php">./src</directory>

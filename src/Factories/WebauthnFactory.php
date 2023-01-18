@@ -2,6 +2,8 @@
 
 namespace Moontechs\FilamentWebauthn\Factories;
 
+use Filament\Facades\Filament;
+use Illuminate\Support\Facades\Config;
 use MadWizard\WebAuthn\Builder\ServerBuilder;
 use MadWizard\WebAuthn\Config\RelyingParty;
 use MadWizard\WebAuthn\Credential\UserHandle;
@@ -26,7 +28,8 @@ class WebauthnFactory
             $this->createServer(),
             $this->createRegistrationOptions(
                 $this->createUserIdentity()
-            )
+            ),
+            Filament::auth()->user()
         );
     }
 
@@ -75,10 +78,10 @@ class WebauthnFactory
     public function createServer(): ServerInterface
     {
         $relyingParty = new RelyingParty(
-            config('filament-webauthn.auth.relying_party.name'),
-            config('filament-webauthn.auth.relying_party.origin')
+            Config::get('filament-webauthn.auth.relying_party.name'),
+            Config::get('filament-webauthn.auth.relying_party.origin')
         );
-        $relyingParty->setId(config('filament-webauthn.auth.relying_party.id'));
+        $relyingParty->setId(Config::get('filament-webauthn.auth.relying_party.id'));
 
         return (new ServerBuilder())
             ->setRelyingParty($relyingParty)
