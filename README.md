@@ -1,8 +1,8 @@
 # Filament Webauthn Authentication (FIDO)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/moontechs/filament-webauthn.svg?style=flat-square)](https://packagist.org/packages/moontechs/filament-webauthn)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/moontechs/filament-webauthn/run-tests?label=tests)](https://github.com/moontechs/filament-webauthn/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/moontechs/filament-webauthn/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/moontechs/filament-webauthn/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/moontechs/filament-webauthn/.github/workflows/run-tests.yml?branch=main)](https://github.com/moontechs/filament-webauthn/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/moontechs/filament-webauthn/.github/workflows/fix-php-code-style-issues.yml?branch=main)](https://github.com/moontechs/filament-webauthn/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/moontechs/filament-webauthn.svg?style=flat-square)](https://packagist.org/packages/moontechs/filament-webauthn)
 
 Passwordless login for your Filament app. Web Authentication server-side and front-end components.
