@@ -13,7 +13,7 @@ jobs:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
-        php: [8.2, 8.1]
+        php: [8.0]
 
     name: P${{ matrix.php }} - ${{ matrix.os }}
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          composer install --dev --prefer-dist --no-interaction
+          composer update --prefer-dist --no-interaction
 
       - name: List Installed Dependencies
         run: composer show -D
